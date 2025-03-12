@@ -12,7 +12,7 @@ pipeline {
         stage('Webhook Triggered') {
             steps {
                 script {
-                    echo "🔔 Webhook recibido: El pipeline ha sido activado por un cambio en el repositorio, AIZA+ANDRE."
+                    echo "🔔 Webhook recibido: El pipeline ha sido activado por un cambio en el repositorio."
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 script {
-                    echo "Clonando repositorio en la rama ${env.BRANCH_NAME ?: 'main'}..."
+                    echo "Clonando repositorio en la rama ${env.BRANCH_NAME ?: 'main'}...."
                     checkout([$class: 'GitSCM',
                         branches: [[name: '*/main']],
                         userRemoteConfigs: [[url: GIT_REPO]]
