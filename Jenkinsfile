@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git GIT_REPO
+                git branch: 'main', GIT_REPO
             }
         }
 
