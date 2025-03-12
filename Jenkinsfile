@@ -12,7 +12,7 @@ pipeline {
         stage('Webhook Triggered') {
             steps {
                 script {
-                    echo "🔔 Webhook recibido: El pipeline ha sido activado por un cambio en el repositorio."
+                    echo "🔔 Webhook recibido: El pipeline ha sido activado por un cambio en el repositorio, AIZA."
                 }
             }
         }
