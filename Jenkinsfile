@@ -11,7 +11,13 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', GIT_REPO
+                script {
+                    echo "Clonando repositorio en la rama ${env.BRANCH_NAME ?: 'main'}..."
+                    checkout([$class: 'GitSCM',
+                        branches: [[name: '*/main']],
+                        userRemoteConfigs: [[url: GIT_REPO]]
+                    ])
+                }
             }
         }
 
@@ -20,7 +26,7 @@ pipeline {
                 script {
                     try {
                         echo "Compilando la aplicación ${APP_NAME}..."
-                        sh 'mkdir -p ${BUILD_DIR} && echo "Archivo de prueba" > ${BUILD_DIR}/app.txt'
+                        sh "mkdir -p ${BUILD_DIR} && echo 'Archivo de prueba' > ${BUILD_DIR}/app.txt"
                         echo "Compilación completada exitosamente."
                     } catch (Exception e) {
                         echo "Error en la compilación: ${e.getMessage()}"
@@ -34,7 +40,7 @@ pipeline {
             steps {
                 script {
                     echo "Ejecutando pruebas en entorno ${DEPLOY_ENV}..."
-                    sh 'echo "Pruebas ejecutadas correctamente"'
+                    sh "echo 'Pruebas ejecutadas correctamente'"
                 }
             }
         }
@@ -43,7 +49,7 @@ pipeline {
             steps {
                 script {
                     echo "Empaquetando archivos para despliegue..."
-                    sh 'tar -czf ${BUILD_DIR}/package.tar.gz ${BUILD_DIR}/app.txt'
+                    sh "tar -czf ${BUILD_DIR}/package.tar.gz ${BUILD_DIR}/app.txt"
                 }
             }
         }
@@ -52,7 +58,7 @@ pipeline {
             steps {
                 script {
                     echo "Desplegando aplicación ${APP_NAME} en entorno ${DEPLOY_ENV}..."
-                    sh 'mv ${BUILD_DIR}/package.tar.gz /tmp/'
+                    sh "mv ${BUILD_DIR}/package.tar.gz /tmp/"
                 }
             }
         }
